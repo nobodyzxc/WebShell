@@ -1,0 +1,14 @@
+.fixed {
+    font-family:consolas;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 700;
+    background-color: white;
+}
+
+.terminal {
+    font-family:consolas;
+    color:white;
+    font-weight:bold;
+}

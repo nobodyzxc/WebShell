@@ -211,10 +211,12 @@ if(is_file($showFile)){
     $compFiles = glob($compRoute."*");
     foreach($compFiles as $compF){
         $compF = pathinfo($compF , PATHINFO_BASENAME);
-        echo '<option value="'.$compF.'"';
-        if(($account) == $compF)
-            echo ' selected';
-        echo '>'.$compF.'</option>';
+        if($compF != "readme.md"){
+            echo '<option value="'.$compF.'"';
+            if(($account) == $compF)
+                echo ' selected';
+            echo '>'.$compF.'</option>';
+        }
     }
 ?>
     </select>

@@ -3,7 +3,7 @@
     if($_POST[password] == $shellPW
         && $_POST[username] == $shellACT){
         	setcookie("login",'USER', time()+360);
-            header("Location:./sh.php");
+            header("Location:./index.php");
     }
 ?>
 <html>

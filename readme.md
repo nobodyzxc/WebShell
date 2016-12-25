@@ -5,4 +5,6 @@ The **main web page** is ./.shell/index.php
 
 Current dir will be the home dir
 
-Before using it , you **should** make some settings in ./.shell/shrc.php
+Before using it , you **should** *make some settings in ./.shell/shrc.php* and *chmod dirs*
+
+chmod: if you can set ACL => `setfacl -Rm u:nobody:rwx ./` or `chmod -R 707 ./`

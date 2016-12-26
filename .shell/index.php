@@ -17,9 +17,10 @@ if ($pwd == null || !$pwd) $pwd = substr($homeDir , 0 , strlen($homeDir) - 1);
 $command = ($_POST['command']);
 $account = $_POST['account'];
 $firstUse = false;
-if ($account == null || !$account)
+if ($account == null || !$account){
     $firstUse = true;
     $account = "nobody";
+}
 ?>
 
 

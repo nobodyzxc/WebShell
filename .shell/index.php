@@ -6,7 +6,7 @@
 ?>
 
 <script src="jquery.min.js"></script>
-<script src="inputCtrl.js></script>
+<script src="inputCtrl.js"></script>
 
 <?php
 //normal setting

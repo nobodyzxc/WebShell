@@ -5,5 +5,5 @@ The **main web page** is ./.shell/index.php
 
 Current dir will be the home dir
 
-Before using it , you **should** *make some settings in ./.shell/shrc.php* and *run ./.shell/init.sh*(chmod)
+Before using it , you **_should_** **make some settings in ./.shell/shrc.php** and **run init.sh(in .shell)**(chmod)
 

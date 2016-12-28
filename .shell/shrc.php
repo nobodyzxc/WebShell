@@ -13,7 +13,8 @@ $setCol="COLUMNS=170";
 $shrc=$homeDir.".shellFile/shrc";
 $sourceFile='. '.$shrc;
 
-$shellPW=''; // password for login
-$shellACT=''; // account for login
+
+$shellACT=''; // account for login pls add
+$shellPW=''; // password for login pls add
 $defaultACT='nobody';
 ?>

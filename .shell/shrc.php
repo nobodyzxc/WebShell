@@ -15,4 +15,5 @@ $sourceFile='. '.$shrc;
 
 $shellPW=''; // password for login
 $shellACT=''; // account for login
+$defaultACT='nobody';
 ?>

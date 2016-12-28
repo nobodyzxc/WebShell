@@ -4,8 +4,9 @@
     else{    
 	}
 ?>
-
-<script src="jquery.min.js"></script>
+<html>
+<script src="jquery.js"></script>
+<script src="jquery.form.js"></script>
 <script src="inputCtrl.js"></script>
 
 <?php
@@ -19,16 +20,16 @@ $account = $_POST['account'];
 $firstUse = false;
 if ($account == null || !$account){
     $firstUse = true;
-    $account = "nobody";
+    $account = $defaultACT;
 }
 ?>
-
 
 
 <head>
     <link rel="stylesheet" type="text/css" href="stylesheet.css"/>
 </head>
 <body style="background-color:black">
+    <div id="stdout" class="stdout">
 <?php
 
 if($command == "cls" || $command == "clear" || $command == "l") system('> '.$showFile);//cat /dev/null > tmp.txt || echo -n '' > xxx
@@ -61,7 +62,9 @@ else if($command !== null && $command){
         $pwd =  fgets($myfile);
         fclose($myfile);
     }
-    else $pwd = $homeDir;
+    else{
+        $pwd = $homeDir;
+    }
 
 }
 
@@ -148,23 +151,41 @@ if(is_file($showFile)){
         }
     }
     fclose($myfile);
-///    if($isLs) echo '<br>';
     $pspwd = str_replace($tilde , "~" , $pwd);
     echo '<span id="psUsr" style="color:#38FF41">'.$account.'@'.$host.'</span>&nbsp<span id="pspwd"style="color:#AAB7ED">'.$pspwd.' </span></span><span style="color:#AAB7ED">$ </span><span id="pscmd" style=\"color:white\"></span>';
     echo '</p>';
 }
 ?>
+    </div><!-- end of div.stdout-->
+<script>
+function saveReport() {  
+    var parser , doc;
+    $("#tcl").ajaxSubmit(function(message){  
+        doc = document.createElement('html'); 
+        doc.innerHTML = message;
+        if(doc.getElementsByClassName("pwd").length == 0){
+            location.href = "../login.php?redir=shell"
+        }
+        $("#pwd").attr("value" , doc.getElementsByClassName("pwd")[0].value);
+        $("#f").attr("value" , doc.getElementsByClassName("f")[0].value);
+        $("#stdout").html($(doc.getElementsByClassName("stdout")).html());
+        $("html, body").animate({ scrollTop: $(document).height() }, 0);
+    }); 
+    return false;//if rtn false -> submit form but not reload page
+}
+</script>
+    
 <div class="fixed" style="background-color:#BDBDBD">
-    <form  action="<?php echo basename(getenv('SCRIPT_NAME'))?>" method="post">
+    <form id="tcl" action="<?php echo basename(getenv('SCRIPT_NAME'))?>" method="post" onsubmit="return saveReport();">
 
     l,cls,clear to clean<br>
     
 <?php
-    echo '&nbsp&nbsppwd:&nbsp<input id="pwd" name="pwd" size=50 value="'.$pwd.'">';
+    echo '&nbsp&nbsppwd:&nbsp<input id="pwd" name="pwd" class="pwd" size=50 value="'.$pwd.'">';
 ?>
 
     <button id="home" type="button">Home</button>
-    <select id="chooseUsr" name="account">
+    <select id="chooseUsr" class="chooseUsr" name="account">
 <?php
     $compFiles = glob($compRoute."*");
     foreach($compFiles as $compF){
@@ -179,12 +200,12 @@ if(is_file($showFile)){
 ?>
     </select>
     <br>
-    prompt:<input  id="f" type="text" name="command" size=50 autocomplete="off" autofocus>
+    prompt:<input  id="f" class="f" type="text" name="command" size=50 autocomplete="off" autofocus>
     <?php $ac = $_POST['autocom']; ?>
     <input id='cbox' type="checkbox" name="autocom" value="1" <?php if($ac == "1") echo 'checked'?>><label for='cbox'>ATCOM</label>
     <?php $cf = $_POST['cursorFix']; ?>
     <input id='cursorFix' type="checkbox" name="cursorFix" value="1" <?php if($cf == "1" || $firstUse) echo 'checked'?>><label for='cursorFix'>CURFIX</label>
-    <button type="submit hidden" style="position: absolute; left: -9999px; width: 1px; height: 1px;" tabindex="-1">Submit</button>
+    <button id='tclEnter' type="submit hidden" tabindex="-1">Submit</button>
 </form>
 </div>
 <div style="height:55px"></div>

@@ -1,12 +1,17 @@
 <?php if(!isset($_COOKIE["login"])){
         header("Location:./login.php");
         }
-    else{    
+    else{
 	}
 ?>
 <html>
-<script src="jquery.js"></script>
-<script src="jquery.form.js"></script>
+<!-- <script src="jquery.js"></script> -->
+<!-- jQuery JavaScript Library v1.7.2 http://jquery.com/ -->
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<!-- <script src="jquery.form.js"></script> -->
+<!-- version: 3.51.0-2014.06.20 https://github.com/malsup/form -->
+<script src="https://cdn.jsdelivr.net/jquery.form/4.2.1/jquery.form.min.js" integrity="sha384-tIwI8+qJdZBtYYCKwRkjxBGQVZS3gGozr3CtI+5JF/oL1JmPEHzCEnIKbDbLTCer" crossorigin="anonymous"></script>
+
 <script src="inputCtrl.js"></script>
 
 <?php
@@ -36,7 +41,7 @@ if($command == "cls" || $command == "clear" || $command == "l") system('> '.$sho
 else if($command !== null && $command){
     //    $command = 'cd '.$pwd.' && ('.$setPath.' && HOME='.$homeDir.' && '.$command.' && pwd > '.$pwdFile.')';
     $command = str_replace("ls" , "ls -C -F -x" , $command);
-    
+
     //$command = str_replace(' $' , ' \$' , $command); if add , will echo $HOME instead of env HOME , but something wired on show long long command
     $command = "cd ".$pwd." && (".$setHome.' '.$setPath.' '.$setCol.$cntCmd.$command." && pwd > ".$pwdFile.")";
     if($account == 'nobody'){
@@ -68,19 +73,19 @@ else if($command !== null && $command){
 
 }
 
-function replace_spaces($string) 
-{ 
-    for( $i = 0, $in_tag = false; $i < strlen($string); $i++ ) 
-    { 
-        if(( $string{$i} == ' ' ) && !$in_tag ) 
-            $string = substr_replace($string, '&nbsp;', $i, 1); 
+function replace_spaces($string)
+{
+    for( $i = 0, $in_tag = false; $i < strlen($string); $i++ )
+    {
+        if(( $string{$i} == ' ' ) && !$in_tag )
+            $string = substr_replace($string, '&nbsp;', $i, 1);
 
-        else if( $string{$i} == '<' ) $in_tag = true; 
-        else if( $string{$i} == '>' ) $in_tag = false; 
-    } 
+        else if( $string{$i} == '<' ) $in_tag = true;
+        else if( $string{$i} == '>' ) $in_tag = false;
+    }
 
-    return $string; 
-}  
+    return $string;
+}
 function strendpos ($haystack, $needle) {
         $pos = strpos($haystack, $needle);
             if ($pos) {
@@ -98,7 +103,7 @@ function check_replace($line , $ch){
         return $rtn;
     if(substr($line , -2) == $ch.chr(10))
         return strlen($line);//chr(10) == \n
-    
+
     return 0;
 }
 
@@ -118,20 +123,20 @@ if(is_file($showFile)){
     $isLs = 0;
     while(!feof($myfile)) {
         $line =  fgets($myfile);
-        $isPs = strpos($line , "span") && strpos($line , 'style="color:#AAB7ED"') && 
+        $isPs = strpos($line , "span") && strpos($line , 'style="color:#AAB7ED"') &&
             strpos($line , 'style="color:#38FF41"') && strpos($line , "@") && strpos($line , "$");
-        if($isPs){//if is prompt 
+        if($isPs){//if is prompt
             echo $line.'<br>';
            // echo '^^^ps<br>';
             $isLs = strpos($line , "ls");
-           // if($isLs) echo 'vvvv Ls<br>'; 
+           // if($isLs) echo 'vvvv Ls<br>';
             if(!strpos($line , '">ls') && (!strpos($line , " ls"))) $isLs = 0;
         }
         else if(strcmp($line , "")){
             if($isLs){
                 $pos = 0;
                 // span / #AAB7ED
-                $line = lsColor($line , '/' , '#AAB7ED'); 
+                $line = lsColor($line , '/' , '#AAB7ED');
                 // span * #38FF41
                 $line = lsColor($line , '*' , '#38FF41');
                 // span @ #2EFFFF
@@ -143,7 +148,7 @@ if(is_file($showFile)){
                 // span > door
 
             }
-//            $line = preg_replace('/>(.*)</', '&nbsp;', $line);  
+//            $line = preg_replace('/>(.*)</', '&nbsp;', $line);
 //            $line = str_replace(" ","&nbsp",$line);//mv space to &nbsp //location ...
             $line = replace_spaces($line);
             echo $line;
@@ -158,10 +163,10 @@ if(is_file($showFile)){
 ?>
     </div><!-- end of div.stdout-->
 <script>
-function saveReport() {  
+function saveReport() {
     var parser , doc;
-    $("#tcl").ajaxSubmit(function(message){  
-        doc = document.createElement('html'); 
+    $("#tcl").ajaxSubmit(function(message){
+        doc = document.createElement('html');
         doc.innerHTML = message;
         if(doc.getElementsByClassName("pwd").length == 0){
             location.href = "../login.php?redir=shell"
@@ -170,16 +175,16 @@ function saveReport() {
         $("#f").attr("value" , doc.getElementsByClassName("f")[0].value);
         $("#stdout").html($(doc.getElementsByClassName("stdout")).html());
         $("html, body").animate({ scrollTop: $(document).height() }, 0);
-    }); 
+    });
     return false;//if rtn false -> submit form but not reload page
 }
 </script>
-    
+
 <div class="fixed" style="background-color:#BDBDBD">
     <form id="tcl" action="<?php echo basename(getenv('SCRIPT_NAME'))?>" method="post" onsubmit="return saveReport();">
 
     l,cls,clear to clean<br>
-    
+
 <?php
     echo '&nbsp&nbsppwd:&nbsp<input id="pwd" name="pwd" class="pwd" size=50 value="'.$pwd.'">';
 ?>
